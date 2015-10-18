@@ -2,6 +2,13 @@
 #coding: utf-8
 
 import random
+import numpy 
+from numpy import genfromtxt
+
+
+x = genfromtxt('Training_Dataset.csv', delimiter=',')
+#print x
+print x[3]
 
 class Perceptron(object):
     """docstring for Perceptron"""
@@ -42,15 +49,14 @@ class Perceptron(object):
             globalError = 0.0
             for x in data: # for each sample
                 r = self.response(x)
-                if x[2] != r: # if have a wrong response
-                    iterError = x[2] - r # desired response - actual response
+                if x[1] != r: # if have a wrong response
+                    iterError = x[1] - r # desired response - actual response
                     self.updateWeights(x, iterError)
                     globalError += abs(iterError)
             iteration += 1
             if globalError == 0.0 or iteration >= 100: # stop criteria
                 print 'iterations: %s' % iteration
                 learned = True # stop learing
-        return learned 
 
 
 
