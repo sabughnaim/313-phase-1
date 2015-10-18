@@ -6,9 +6,10 @@ import numpy
 from numpy import genfromtxt
 
 
-x = genfromtxt('Training_Dataset.csv', delimiter=',')
+data = genfromtxt('Training_Dataset.csv', delimiter=',')
 #print x
-print x[3]
+print data[1] #prints the second row
+print data[1,2] #prints the third element of second row 
 
 class Perceptron(object):
     """docstring for Perceptron"""
@@ -37,6 +38,7 @@ class Perceptron(object):
         self.w = \
             [i + self.learningRate * iterError * j for i, j in zip(self.w, x)]
 
+#two/multi dimensional arrays 
     def train(self, data):
         """
         trains all the vector in data.
@@ -47,10 +49,11 @@ class Perceptron(object):
         iteration = 0
         while not learned:
             globalError = 0.0
-            for x in data: # for each sample
+            for data[i,1] in data: # for each sample's label classification
                 r = self.response(x)
-                if x[1] != r: # if have a wrong response
-                    iterError = x[1] - r # desired response - actual response
+                #starting at row 1, the second row 
+                if data[i,1] != r: # if have a wrong response
+                    iterError = data[i,1] - r # desired response - actual response
                     self.updateWeights(x, iterError)
                     globalError += abs(iterError)
             iteration += 1
