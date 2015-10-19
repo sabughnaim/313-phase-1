@@ -7,7 +7,7 @@ import random
 import numpy 
 from numpy import genfromtxt
 from matplotlib.pylab import *
-
+x = 0 
 
 data = genfromtxt('Training_Dataset.csv', delimiter=',')
 testset = genfromtxt('Validation_Dataset.csv', delimiter=',')
@@ -25,7 +25,7 @@ class Perceptron(object):
 
     def response(self, x):
         """perceptron output"""
-        # y = x[0] * self.w[0] + x[1] * self.w[1] # dot product between w and x
+        #y = x[0] * self.w[0] + x[1] * self.w[1] # dot product between w and x
         y = sum([i * j for i, j in zip(self.w, x)]) # more pythonic
         if y >= 0:
             return 1
@@ -42,7 +42,6 @@ class Perceptron(object):
         # self.w[1] += self.learningRate * iterError * x[1]
         self.w = \
             [i + self.learningRate * iterError * j for i, j in zip(self.w, x)]
-#x is not defined 
 
     def train(self, data):
         """
@@ -54,7 +53,6 @@ class Perceptron(object):
         iteration = 0
         while not learned:
             globalError = 0.0
-            x=[0]
             for data[x] in data: # for each sample's label classification
                 r = self.response(x)
                 #starting at row 1, the second row 
@@ -73,13 +71,9 @@ p.train(data)
 #Perceptron test
 for x in testset:
     r = p.response(x)
-    if r != x[2]: # if the response is not correct
+    if r != data[x,1]: # if the response is not correct, CHANGE 
         print 'not hit.'
     if r == 1:
         plot(x[0], x[1], 'ob')
     else:
         plot(x[0], x[1], 'or')
-
-
-
-
