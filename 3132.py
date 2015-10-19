@@ -7,7 +7,7 @@ import random
 import numpy 
 from numpy import genfromtxt
 from matplotlib.pylab import *
-x = 0 
+x = [0] 
 
 data = genfromtxt('Training_Dataset.csv', delimiter=',')
 testset = genfromtxt('Validation_Dataset.csv', delimiter=',')
@@ -27,7 +27,7 @@ class Perceptron(object):
         """perceptron output"""
         #y = x[0] * self.w[0] + x[1] * self.w[1] # dot product between w and x
         y = sum([i * j for i, j in zip(self.w, x)]) # more pythonic
-        if y >= 0:
+        if y >= 0 : 
             return 1
         else:
             return -1
@@ -65,15 +65,28 @@ class Perceptron(object):
                 print 'iterations: %s' % iteration
                 learned = True # stop learing
 
-
 p = Perceptron()
 p.train(data)
+
 #Perceptron test
-for x in testset:
-    r = p.response(x)
-    if r != data[x,1]: # if the response is not correct, CHANGE 
+i = 0
+for i in testset:
+    r = p.response(i)
+    if r != data[i]: # if the response is not correct
         print 'not hit.'
     if r == 1:
-        plot(x[0], x[1], 'ob')
+        plot(data[0], data[1], 'ob')
     else:
-        plot(x[0], x[1], 'or')
+        plot(data[0], data[1], 'or')
+
+# plot of the separation line. 
+# The centor of line is the coordinate origin
+# So the length of line is 2
+# The separation line is orthogonal to w
+
+n = norm(p.w) # aka the length of p.w vector
+ww = p.w / n # a unit vector
+ww1 = [ww[1], -ww[0]]
+ww2 = [-ww[1], ww[0]]
+plot([ww1[0], ww2[0]], [ww1[1], ww2[1]], '--k')
+show()
